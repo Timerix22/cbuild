@@ -16,6 +16,7 @@ function create_default_config(){
 if [ ! -f ".config" ]; then
     printf "${YELLOW}./.config doesn't exist\n"
     create_default_config
+    printf "${GRAY}"
     exit
 fi
 source .config
@@ -30,8 +31,11 @@ if [ ! $CONFIG_VER -eq 2 ]; then
             [Yy] ) 
                 cp .config .config.backup
                 create_default_config
+                printf "${GRAY}"
                 exit;;
-            [Nn] ) exit;;
+            [Nn] )
+                printf "${GRAY}" 
+                exit;;
             * ) printf "${RED}incorrect answer\n";;
         esac
     done

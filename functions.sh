@@ -32,6 +32,7 @@ function compile {
 
     if [ $compilation_error != 0 ]
     then
+        printf "${GRAY}"
         exit 1
     fi
 }
@@ -63,7 +64,7 @@ $(find $OBJDIR -name '*.a')"
         printf "${GREEN}file $CYAN$outfile ${GREEN}created\n"
         rm -rf $OBJDIR
     else
-        printf "${RED}some error happened\n"
+        printf "${RED}some error happened\n${GRAY}"
         exit 1
     fi
 }
@@ -80,7 +81,7 @@ function pack_static_lib {
         printf "${GREEN}file $CYAN$outfile ${GREEN}created\n"
         rm -rf $OBJDIR
     else
-        printf "${RED}some error happened\n"
+        printf "${RED}some error happened\n${GRAY}"
         exit 1
     fi
 }

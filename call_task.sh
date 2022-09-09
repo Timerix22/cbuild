@@ -14,3 +14,4 @@ if [ -f "$PRE_BUILD_SCRIPT" ]; then
 fi
 
 ./$TASK_SCRIPT
+printf "${GRAY}"
