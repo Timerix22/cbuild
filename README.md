@@ -13,3 +13,5 @@ git clone http://github.com/Timerix22/cbuild.git
 cp cbuild/default.Makefile Makefile
 make
 ```
+
+You can create your own default config. Put it in project directory and name default.config.sh
