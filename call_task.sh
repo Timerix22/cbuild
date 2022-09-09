@@ -2,14 +2,14 @@
 
 tabs 4
 TASK=$1
-myprintf "${CYAN}===========[$TASK]===========\n"
+printf "${CYAN}===========[$TASK]===========\n"
 source cbuild/init.sh
 
 #pre_build
 clear_dir $OBJDIR
 clear_dir $OUTDIR
 if [ -f "$PRE_BUILD_SCRIPT" ]; then
-    myprintf "${BLUE}executing $PRE_BUILD_SCRIPT"
+    printf "${BLUE}executing $PRE_BUILD_SCRIPT"
     source "$PRE_BUILD_SCRIPT"
 fi
 
