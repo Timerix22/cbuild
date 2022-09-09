@@ -1,7 +1,5 @@
 #!/bin/bash
 
-tabs 4
-
 source cbuild/colors.sh
 source cbuild/functions.sh
 
@@ -16,14 +14,4 @@ if [ ! -f ".config" ]; then
     print "${YELLOW}Default config created.\nEdit it's values.\n"
     exit
 fi
-
 source .config
-
-clear_dir $OBJDIR
-clear_dir $OUTDIR
-
-#pre_build
-if [ -f "$PRE_BUILD_SCRIPT" ]; then
-    print "${BLUE}executing $PRE_BUILD_SCRIPT"
-    source "$PRE_BUILD_SCRIPT"
-fi

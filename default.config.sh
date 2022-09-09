@@ -1,8 +1,6 @@
 #!/bin/bash
 
 PROJECT=some_project
-OUTDIR=bin
-OBJDIR=obj
 CMP_C=gcc
 CMP_CPP=g++
 STD_C=c11
@@ -13,34 +11,55 @@ SRC_C="$(    find src -name '*.c')"
 SRC_CPP="$(  find src -name '*.cpp')"
 TESTS_C="$(  find tests -name '*.c')"
 TESTS_CPP="$(find tests -name '*.cpp')"
-VALGRIND_ARGS="-s --log-file=valgrind.log --read-var-info=yes --track-origins=yes --fullpath-after=$PROJECT/ --leak-check=full --show-leak-kinds=all"
+
+OUTDIR=bin
+OBJDIR=obj
+EXEC_FILE=$PROJECT.com
+SHARED_LIB_FILE=$PROJECT.so
+STATIC_LIB_FILE=$PROJECT.a
 
 PRE_BUILD_SCRIPT=tasks/pre_build.sh
 
-# build_exec
-EXEC_FILE=$PROJECT.com
-BUILD_EXEC_C_ARGS="-O2"
-BUILD_EXEC_CPP_ARGS="$BUILD_EXEC_C_ARGS"
-BUILD_EXEC_LINKER_ARGS=""
-# build_exec_dbg
-BUILD_EXEC_DBG_C_ARGS="-O0 -g"
-BUILD_EXEC_DBG_CPP_ARGS="$BUILD_EXEC_DBG_C_ARGS"
-BUILD_EXEC_DBG_LINKER_ARGS=""
-
-# build_shared_lib
-SHARED_LIB_FILE=$PROJECT.so
-BUILD_SHARED_LIB_C_ARGS="-O2 -fpic -flto -shared"
-BUILD_SHARED_LIB_CPP_ARGS="$BUILD_SHARED_LIB_C_ARGS"
-BUILD_SHARED_LIB_LINKER_ARGS="-Wl,-soname,$SHARED_LIB_FILE"
-# build_shared_lib_dbg
-BUILD_SHARED_LIB_DBG_C_ARGS="-O0 -g -fpic -shared"
-BUILD_SHARED_LIB_DBG_CPP_ARGS="$BUILD_SHARED_LIB_C_ARGS"
-BUILD_SHARED_LIB_DBG_LINKER_ARGS="-Wl,-soname,$SHARED_LIB_FILE"
-
-# build_static_lib
-STATIC_LIB_FILE=$PROJECT.a
-BUILD_STATIC_LIB_C_ARGS="-O2 -fpic"
-BUILD_STATIC_LIB_CPP_ARGS="$BUILD_STATIC_LIB_C_ARGS"
-# build_static_lib_dbg
-BUILD_STATIC_LIB_DBG_C_ARGS="-O0 -g"
-BUILD_STATIC_LIB_DBG_CPP_ARGS="$BUILD_STATIC_LIB_DBG_C_ARGS"
+case $TASK in
+    build_exec)
+        C_ARGS="-O2"
+        CPP_ARGS="$C_ARGS"
+        LINKER_ARGS=""
+        TASK_SCRIPT="cbuild/build_exec.sh"
+        ;;
+    build_exec_dbg)
+        C_ARGS="-O0 -g"
+        CPP_ARGS="$C_ARGS"
+        LINKER_ARGS=""
+        TASK_SCRIPT="cbuild/build_exec.sh"
+        ;;
+    build_shared_lib)
+        C_ARGS="-O2 -fpic -flto -shared"
+        CPP_ARGS="$C_ARGS"
+        LINKER_ARGS="-Wl,-soname,$SHARED_LIB_FILE"
+        TASK_SCRIPT="cbuild/build_shared_lib.sh"
+        ;;
+    build_shared_lib_dbg
+        C_ARGS="-O0 -g -fpic -shared"
+        CPP_ARGS="$C_ARGS"
+        LINKER_ARGS="-Wl,-soname,$SHARED_LIB_FILE"
+        TASK_SCRIPT="cbuild/build_shared_lib.sh"
+        ;;
+    build_static_lib)
+        C_ARGS="-O2 -fpic"
+        CPP_ARGS="$C_ARGS" 
+        TASK_SCRIPT="cbuild/build_static_lib.sh"
+        ;;
+    build_static_lib_dbg)
+        C_ARGS="-O0 -g"
+        CPP_ARGS="$C_ARGS" 
+        TASK_SCRIPT="cbuild/build_static_lib.sh"
+        ;;
+    exec)
+        TASK_SCRIPT="cbuild/exec.sh"
+        ;;
+    valgrind)  
+        VALGRIND_ARGS="-s --log-file=valgrind.log --read-var-info=yes --track-origins=yes --fullpath-after=$PROJECT/ --leak-check=full --show-leak-kinds=all" 
+        TASK_SCRIPT="cbuild/valgrind.sh"
+        ;;
+esac
