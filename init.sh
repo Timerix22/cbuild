@@ -9,17 +9,8 @@ source cbuild/functions.sh
 if [ ! -f ".config" ]; then
     print "${YELLOW}./.config doesn't exist\n"
     cp cbuild/default.config.sh .config
-    print "${YELLOW}Default config created.\nEdit it's values and continue."
-    while true; do
-        print "${WHITE}continue? (y/n) "
-        read answ
-        case $answ in
-            [Yy] ) break;;
-            [Nn] ) exit;;
-            * ) print "${RED}incorrect answer\n";;
-        esac
-    done
+    print "${YELLOW}Default config created.\nEdit it's values.\n"
+    exit
 fi
-
 
 source .config

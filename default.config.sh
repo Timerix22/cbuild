@@ -13,10 +13,10 @@ SRC_C="$(    find src -name '*.c')"
 SRC_CPP="$(  find src -name '*.cpp')"
 TESTS_C="$(  find tests -name '*.c')"
 TESTS_CPP="$(find tests -name '*.cpp')"
-VALGRIND_ARGS="-s --log-file=valgrind.log --read-var-info=yes --track-origins=yes --fullpath-after=$POJECT/ --leak-check=full --show-leak-kinds=all"
+VALGRIND_ARGS="-s --log-file=valgrind.log --read-var-info=yes --track-origins=yes --fullpath-after=$PROJECT/ --leak-check=full --show-leak-kinds=all"
 
 # build_exec
-EXEC_FILE=$POJECT.com
+EXEC_FILE=$PROJECT.com
 BUILD_EXEC_C_ARGS="-O2"
 BUILD_EXEC_CPP_ARGS="$BUILD_EXEC_C_ARGS"
 BUILD_EXEC_LINKER_ARGS=""
@@ -26,13 +26,17 @@ BUILD_EXEC_DBG_CPP_ARGS="$BUILD_EXEC_DBG_C_ARGS"
 BUILD_EXEC_DBG_LINKER_ARGS=""
 
 # build_shared_lib
-SHARED_LIB_FILE=$POJECT.so
+SHARED_LIB_FILE=$PROJECT.so
 BUILD_SHARED_LIB_C_ARGS="-O2 -fpic -flto -shared"
 BUILD_SHARED_LIB_CPP_ARGS="$BUILD_SHARED_LIB_C_ARGS"
 BUILD_SHARED_LIB_LINKER_ARGS="-Wl,-soname,$SHARED_LIB_FILE"
+# build_shared_lib_dbg
+BUILD_SHARED_LIB_DBG_C_ARGS="-O0 -g -fpic -shared"
+BUILD_SHARED_LIB_DBG_CPP_ARGS="$BUILD_SHARED_LIB_C_ARGS"
+BUILD_SHARED_LIB_DBG_LINKER_ARGS="-Wl,-soname,$SHARED_LIB_FILE"
 
 # build_static_lib
-STATIC_LIB_FILE=$POJECT.a
+STATIC_LIB_FILE=$PROJECT.a
 BUILD_STATIC_LIB_C_ARGS="-O2 -fpic"
 BUILD_STATIC_LIB_CPP_ARGS="$BUILD_STATIC_LIB_C_ARGS"
 # build_static_lib_dbg
