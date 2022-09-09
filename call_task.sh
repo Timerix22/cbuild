@@ -13,5 +13,5 @@ if [ -f "$PRE_BUILD_SCRIPT" ]; then
     source "$PRE_BUILD_SCRIPT"
 fi
 
-$TASK_SCRIPT
+source $TASK_SCRIPT
 printf "${GRAY}"
