@@ -15,4 +15,4 @@ bash cbuild/chmod_scripts.sh
 make
 ```
 
-You can create your own default config. Put it in project directory and name default.config.sh
+You can create your own default config. Put it in project directory and name default.config
