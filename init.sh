@@ -9,12 +9,12 @@ function create_default_config(){
     else
         cp cbuild/default.config .config
     fi
-    print "${YELLOW}Default config created.\nEdit it.\n"
+    myprint "${YELLOW}Default config created.\nEdit it.\n"
 }
 
 #.config
 if [ ! -f ".config" ]; then
-    print "${YELLOW}./.config doesn't exist\n"
+    myprint "${YELLOW}./.config doesn't exist\n"
     create_default_config
     exit
 fi
@@ -22,9 +22,9 @@ source .config
 
 #version check
 if [ ! $CONFIG_VER -eq 2 ]; then
-    print "${RED}Your config version isn't correct\n"
+    myprint "${RED}Your config version isn't correct\n"
     while true; do
-        print "${WHITE}Backup current config and create default one? (y/n) "
+        myprint "${WHITE}Backup current config and create default one? (y/n) "
         read answ
         case $answ in
             [Yy] ) 
@@ -32,7 +32,7 @@ if [ ! $CONFIG_VER -eq 2 ]; then
                 create_default_config
                 exit;;
             [Nn] ) exit;;
-            * ) print "${RED}incorrect answer\n";;
+            * ) myprint "${RED}incorrect answer\n";;
         esac
     done
 fi
