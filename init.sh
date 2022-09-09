@@ -19,6 +19,9 @@ fi
 
 source .config
 
+clear_dir $OBJDIR
+clear_dir $OUTDIR
+
 #pre_build
 if [ -f "$PRE_BUILD_SCRIPT" ]; then
     print "${BLUE}executing $PRE_BUILD_SCRIPT"
