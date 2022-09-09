@@ -19,9 +19,10 @@ if [ ! -f ".config" ]; then
     exit
 fi
 source .config
+
 #version check
 if [ ! $CONFIG_VER -eq 2 ]; then
-    print "${RED}Your config version isn't correct"
+    print "${RED}Your config version isn't correct\n"
     while true; do
         print "${WHITE}Backup current config and create default one? (y/n) "
         read answ
