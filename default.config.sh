@@ -15,6 +15,8 @@ TESTS_C="$(  find tests -name '*.c')"
 TESTS_CPP="$(find tests -name '*.cpp')"
 VALGRIND_ARGS="-s --log-file=valgrind.log --read-var-info=yes --track-origins=yes --fullpath-after=$PROJECT/ --leak-check=full --show-leak-kinds=all"
 
+PRE_BUILD_SCRIPT=tasks/pre_build.sh
+
 # build_exec
 EXEC_FILE=$PROJECT.com
 BUILD_EXEC_C_ARGS="-O2"

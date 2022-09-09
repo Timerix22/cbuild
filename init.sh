@@ -14,3 +14,9 @@ if [ ! -f ".config" ]; then
 fi
 
 source .config
+
+#pre_build
+if [ -f "$PRE_BUILD_SCRIPT" ]; then
+    print "${BLUE}executing $PRE_BUILD_SCRIPT"
+    source "$PRE_BUILD_SCRIPT"
+fi
