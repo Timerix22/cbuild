@@ -11,6 +11,7 @@ All tasks should be launched through `Makefile`. Tasks can be configured in `.co
 cd some_project
 git clone http://github.com/Timerix22/cbuild.git
 cp cbuild/default.Makefile Makefile
+bash cbuild/chmod_scripts.sh
 make
 ```
 
