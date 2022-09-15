@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function clear_dir {
-	printf "${BLUE}clearing $1\n"
+	printf "${BLUE}clearing $1\n${GRAY}"
     rm -rf $1
 	mkdir $1
 }
@@ -30,9 +30,9 @@ function compile {
     ) & done
     wait
 
+    printf "${GRAY}"
     if [ $compilation_error != 0 ]
     then
-        printf "${GRAY}"
         exit 1
     fi
 }
@@ -61,7 +61,7 @@ $(find $OBJDIR -name '*.a')"
     printf "${BLUE}objects: ${GRAY}$objects\n"
     if $CMP_CPP $args -o $outfile $(echo $objects | tr '\n' ' ')
     then 
-        printf "${GREEN}file $CYAN$outfile ${GREEN}created\n"
+        printf "${GREEN}file $CYAN$outfile ${GREEN}created\n${GRAY}"
         rm -rf $OBJDIR
     else
         printf "${RED}some error happened\n${GRAY}"
@@ -71,14 +71,14 @@ $(find $OBJDIR -name '*.a')"
 
 # (outfile)
 function pack_static_lib {
-	printf "${CYAN}----------------[link]----------------\n"
+	printf "${CYAN}----------[pack_static_lib]-----------\n"
     local outfile=$OUTDIR/$1
     printf "${BLUE}outfile: ${GRAY}$outfile\n"
     local objects="$(find $OBJDIR -name *.o)"
     printf "${BLUE}objects: ${GRAY}$objects\n"
     if ar rcs $outfile $(echo $objects | tr '\n' ' ')
     then 
-        printf "${GREEN}file $CYAN$outfile ${GREEN}created\n"
+        printf "${GREEN}file $CYAN$outfile ${GREEN}created\n${GRAY}"
         rm -rf $OBJDIR
     else
         printf "${RED}some error happened\n${GRAY}"
