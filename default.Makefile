@@ -1,3 +1,5 @@
+all: build_exec
+
 ######      Build cbuild/default_tasks     #######
 build_exec: 
 	@cbuild/call_task.sh build_exec
@@ -20,5 +22,3 @@ exec: build_exec
 
 valgrind: build_exec_dbg
 	@cbuild/call_task.sh valgrind
-
-all: build_exec
