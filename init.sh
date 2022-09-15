@@ -40,3 +40,6 @@ if [ ! $CONFIG_VER -eq 2 ]; then
         esac
     done
 fi
+
+mkdir -p "$OUTDIR"
+mkdir -p "$OBJDIR"
