@@ -1,6 +1,7 @@
 #!/bin/bash
 source cbuild/colors.sh
 source cbuild/functions.sh
+# exit on errors
 set -eo pipefail
 
 # copying default config from cbuild if it not exists
@@ -12,6 +13,11 @@ fi
 source default.config
 DEFAULT_CONFIG_VERSION=$CONFIG_VERSION
 DEFAULT_CBUILD_VERSION=$CBUILD_VERSION
+unset CONFIG_VERSION
+unset CBUILD_VERSION
+
+# error on undefined
+set -u
 
 # reading current config or creating default
 if [ ! -f current.config ]; then
@@ -34,3 +40,6 @@ fi
 
 mkdir -p "$OUTDIR"
 mkdir -p "$OBJDIR"
+
+# dont thorw error on undefined variable
+set +u
