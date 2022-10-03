@@ -1,44 +1,35 @@
 #!/bin/bash
-
 source cbuild/colors.sh
 source cbuild/functions.sh
+set -eo pipefail
 
-function create_default_config(){
-    if [ -f "default.config" ]; then
-        cp default.config .config
-    else
-        cp cbuild/default.config .config
-    fi
-    printf "${YELLOW}Default config created.\nEdit it.\n"
-}
+# copying default config from cbuild if it not exists
+if [ ! -f default.config ]; then
+    cp cbuild/default.config default.config
+    printf "${YELLOW}Default config didn't exist, copied from cbuild.\n"
+fi
+# getting some values from default config
+source default.config
+DEFAULT_CONFIG_VERSION=$CONFIG_VERSION
+DEFAULT_CBUILD_VERSION=$CBUILD_VERSION
 
-#.config
-if [ ! -f ".config" ]; then
-    printf "${YELLOW}./.config doesn't exist\n"
-    create_default_config
-    printf "${GRAY}"
+# reading current config or creating default
+if [ ! -f current.config ]; then
+    printf "${YELLOW}./current.config doesn't exist\n"
+    cp default.config current.config
+    printf "${YELLOW}New config created from the default.\nEdit it.\n${GRAY}"
     exit
 fi
-source .config
+source current.config
 
-#version check
-if [ ! $CONFIG_VER -eq 2 ]; then
-    printf "${RED}Your config version isn't correct\n"
-    while true; do
-        printf "${WHITE}Backup current config and create default one? (y/n) "
-        read answ
-        case $answ in
-            [Yy] ) 
-                cp .config .config.backup
-                create_default_config
-                printf "${GRAY}"
-                exit;;
-            [Nn] )
-                printf "${GRAY}" 
-                exit;;
-            * ) printf "${RED}incorrect answer\n";;
-        esac
-    done
+# checking versions
+if [ ! $CBUILD_VERSION -eq $DEFAULT_CBUILD_VERSION ]; then
+    printf "${RED}Your config was created for outdated cbuild version\n${GRAY}"
+    exit
+fi
+if [ ! $CONFIG_VERSION -eq $DEFAULT_CONFIG_VERSION ]; then
+    printf "${RED}Your config version isn't correct\n${GRAY}"
+    exit
 fi
 
 mkdir -p "$OUTDIR"
