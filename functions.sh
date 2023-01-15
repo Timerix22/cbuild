@@ -62,7 +62,7 @@ $(find $OBJDIR -name '*.a')"
     if $CMP_CPP $args -o $outfile $(echo $objects | tr '\n' ' ')
     then 
         printf "${GREEN}file $CYAN$outfile ${GREEN}created\n${GRAY}"
-        rm -rf $OBJDIR
+        clear_dir $OBJDIR
     else
         printf "${RED}some error happened\n${GRAY}"
         exit 1
@@ -79,7 +79,7 @@ function pack_static_lib {
     if ar rcs $outfile $(echo $objects | tr '\n' ' ')
     then 
         printf "${GREEN}file $CYAN$outfile ${GREEN}created\n${GRAY}"
-        rm -rf $OBJDIR
+        clear_dir $OBJDIR
     else
         printf "${RED}some error happened\n${GRAY}"
         exit 1
