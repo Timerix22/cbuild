@@ -5,6 +5,7 @@ TASK=$1
 printf "${CYAN}===========[$TASK]===========\n"
 source cbuild/init.sh
 
+clear_dir $OBJDIR
 
 if [ -f "$PRE_TASK_SCRIPT" ]; then
     printf "${BLUE}executing $PRE_TASK_SCRIPT\n"
