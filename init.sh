@@ -30,11 +30,11 @@ source current.config
 
 # checking versions
 if [ ! $CBUILD_VERSION -eq $DEFAULT_CBUILD_VERSION ]; then
-    printf "${RED}Your config was created for outdated cbuild version\n${GRAY}"
+    printf "${RED}config was created for outdated cbuild version\n${GRAY}"
     exit
 fi
 if [ ! $CONFIG_VERSION -eq $DEFAULT_CONFIG_VERSION ]; then
-    printf "${RED}Your config version isn't correct\n${GRAY}"
+    printf "${RED}config version isn't correct\n${GRAY}"
     exit
 fi
 
