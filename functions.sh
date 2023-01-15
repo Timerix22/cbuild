@@ -25,6 +25,7 @@ function compile {
         if ! $($cmp -std=$std $warn $args -c -o $object $srcfile) 
         then
             printf "${RED}some error happened\n"
+            #TODO parallel variable assignement doesnt work in bash
             compilation_error=1
         fi
     ) & done
