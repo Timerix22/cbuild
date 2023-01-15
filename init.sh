@@ -9,8 +9,9 @@ if [ ! -f default.config ]; then
     cp cbuild/default.config default.config
     printf "${YELLOW}Default config didn't exist, copied from cbuild.\n"
 fi
-# getting some values from default config
+printf "Reading ./default.config\n"
 source default.config
+# getting some values from default config
 DEFAULT_CONFIG_VERSION=$CONFIG_VERSION
 DEFAULT_CBUILD_VERSION=$CBUILD_VERSION
 unset CONFIG_VERSION
@@ -26,6 +27,7 @@ if [ ! -f current.config ]; then
     printf "${YELLOW}New config created from the default.\nEdit it.\n${GRAY}"
     exit
 fi
+printf "Reading ./current.config\n"
 source current.config
 
 # checking versions
