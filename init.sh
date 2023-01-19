@@ -10,13 +10,13 @@ if [ ! -f default.config ]; then
     cp cbuild/default.config default.config
     printf "${YELLOW}Default config didn't exist, copied from cbuild.\n"
 fi
-printf "Reading ./default.config\n"
-source default.config
+
+source ./default.config
 # getting some values from default config
 DEFAULT_CONFIG_VERSION=$CONFIG_VERSION
+source cbuild/default.config
 DEFAULT_CBUILD_VERSION=$CBUILD_VERSION
-unset CONFIG_VERSION
-unset CBUILD_VERSION
+
 
 # error on undefined
 set -u
@@ -34,11 +34,11 @@ source current.config
 # checking versions
 if [ ! $CBUILD_VERSION -eq $DEFAULT_CBUILD_VERSION ]; then
     printf "${RED}config was created for outdated cbuild version\n${GRAY}"
-    exit
+    exit 1
 fi
 if [ ! $CONFIG_VERSION -eq $DEFAULT_CONFIG_VERSION ]; then
     printf "${RED}config version isn't correct\n${GRAY}"
-    exit
+    exit 1
 fi
 
 mkdir -p "$OUTDIR"
