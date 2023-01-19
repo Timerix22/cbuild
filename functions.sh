@@ -60,7 +60,9 @@ function link {
     local objects="$(find $OBJDIR -name '*.o')
 $(find $OBJDIR -name '*.a')"
     printf "${BLUE}objects: ${GRAY}$objects\n"
-    if $CMP_CPP $args -o $outfile $(echo $objects | tr '\n' ' ')
+    local command="$CMP_CPP $args $(echo $objects | tr '\n' ' ') $LINK_LIBS -o $outfile"
+    printf "$command"
+    if $command
     then 
         printf "${GREEN}file $CYAN$outfile ${GREEN}created\n${GRAY}"
     else
