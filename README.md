@@ -1,18 +1,13 @@
 # cbuild
 My C/C++ build system written in bash.
 
-Repo contains some scripts (functions, init, etc.), which can be used in your custom task scripts. There are also some default tasks.
+Repo contains some functions, which can be used in your custom task scripts. There are also some default tasks.
 
-All tasks should be launched through `Makefile`. Tasks can be configured in `current.config` file (it is automatically created by init.sh).
+All tasks can be launched through `Makefile` or `cbuild/call_task.sh`. Tasks can be configured in `current.config`.
 
 ## How to set up
-
 ```bash
-cd some_project
-git clone http://github.com/Timerix22/cbuild.git
-cp cbuild/default.Makefile Makefile
-bash cbuild/chmod_scripts.sh
-make
+git clone http://github.com/Timerix22/cbuild.git && \
+cbuild/setup.sh submodule
 ```
-
-You should create your own default config. Put it in project directory and name default.config
+Than create your project `default.config` based on `cbuild/default.config`.
