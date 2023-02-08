@@ -21,5 +21,5 @@ case $1 in
 esac
 
 cp cbuild/default.Makefile Makefile
-cp cbuild/default.config
-bash cbuild/chmod_scripts.sh
+cp cbuild/default.config ./
+#bash cbuild/chmod_scripts.sh
