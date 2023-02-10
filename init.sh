@@ -1,7 +1,10 @@
 #!/bin/bash
+tabs 4
+
 source cbuild/colors.sh
 source cbuild/functions.sh
 source cbuild/detect_os.sh
+
 # exit on errors
 set -eo pipefail
 

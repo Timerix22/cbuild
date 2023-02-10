@@ -1,21 +1,24 @@
 #!/bin/bash
 
-tabs 4
-TASK=$1
-printf "${CYAN}===========[$TASK]===========\n"
-source cbuild/init.sh
+function call_task {
+    TASK=$1
+    printf "${CYAN}===========[$TASK]===========\n"
+    source cbuild/init.sh
 
-clear_dir $OBJDIR
+    clear_dir $OBJDIR
 
-if [ -f "$PRE_TASK_SCRIPT" ]; then
-    printf "${BLUE}executing $PRE_TASK_SCRIPT\n"
-    source "$PRE_TASK_SCRIPT"
-fi
+    if [ -f "$PRE_TASK_SCRIPT" ]; then
+        printf "${BLUE}executing $PRE_TASK_SCRIPT\n"
+        source "$PRE_TASK_SCRIPT"
+    fi
 
-source $TASK_SCRIPT
-printf "${GRAY}"
+    source $TASK_SCRIPT
+    printf "${GRAY}"
 
-if [ -f "$POST_TASK_SCRIPT" ]; then
-    printf "${BLUE}executing $POST_TASK_SCRIPT\n"
-    source "$POST_TASK_SCRIPT"
-fi
+    if [ -f "$POST_TASK_SCRIPT" ]; then
+        printf "${BLUE}executing $POST_TASK_SCRIPT\n"
+        source "$POST_TASK_SCRIPT"
+    fi
+}
+
+time call_task $1
