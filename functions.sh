@@ -92,7 +92,7 @@ $(find $OBJDIR/libs -name '*.a')"
 # (outfile)
 function pack_static_lib {
 	myprint "${CYAN}----------[pack_static_lib]-----------"
-    local outfile="$OUTDIR/$1"
+    local outfile="$1"
     myprint "${BLUE}outfile: ${GRAY}$outfile"
     local objects="$(find $OBJDIR/objects -name *.o)
 $(find $OBJDIR/libs -name '*.a')"

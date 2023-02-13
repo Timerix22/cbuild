@@ -11,3 +11,8 @@
 + added makefile task fix_log
 + new comments in scripts and Makefile 
 + wrapped arguments with quots in scripts
++ now u should add CPP_ARGS to LINKER_ARGS manually
++ added error(msg) function to functions.sh
++ replaced printf calls with myprint in scripts
++ added default .gitignore
++ added *.log to .gitignore

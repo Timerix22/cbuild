@@ -26,3 +26,7 @@ esac
 
 cp cbuild/default.Makefile Makefile
 cp cbuild/default.config ./
+
+echo "copy default .gitignore? [y/any]"
+read answ
+[[ "$answ"="y" ]] && cp cbuild/.gitignore ./
