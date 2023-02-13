@@ -22,3 +22,5 @@ function call_task {
 }
 
 time call_task "$1"
+# new line
+echo
