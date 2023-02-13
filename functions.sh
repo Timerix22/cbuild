@@ -1,88 +1,107 @@
 #!/bin/bash
 
-function clear_dir {
-	printf "${BLUE}clearing $1\n${GRAY}"
-    rm -rf $1
-	mkdir $1
+function myprint {
+    printf "$@${GRAY}\n"
 }
 
+function error {
+    myprint "${RED}$1"
+    exit 1
+}
+
+function clean_dir {
+    local dir="$1"
+	myprint "${WHITE}cleaning $dir"
+    rm -rf "$dir"
+    mkdir "$dir"
+}
+
+function delete_dir {
+    local dir="$1"
+	myprint "${WHITE}deleting $dir"
+    rm -rf "$dir"
+}
+
+
 function compile {
-    local cmp=$1
-    printf "${BLUE}compiler: ${GRAY}$cmp\n"
-    local std=$2
-    printf "${BLUE}standard: ${GRAY}$std\n"
-    local warn=$3
-    printf "${BLUE}warnings: ${GRAY}$warn\n"
-    local args=$4
-    printf "${BLUE}args: ${GRAY}$args\n"
-    local sources=$5
-    printf "${BLUE}sources: ${GRAY}$sources\n"
+    local cmp="$1"
+    myprint "${BLUE}compiler: ${GRAY}$cmp"
+    local std="$2"
+    myprint "${BLUE}standard: ${GRAY}$std"
+    local warn="$3"
+    myprint "${BLUE}warnings: ${GRAY}$warn"
+    local args="$4"
+    myprint "${BLUE}args: ${GRAY}$args"
+    local sources="$5"
+    myprint "${BLUE}sources: ${GRAY}$sources"
     local compilation_error=0
 
 	for srcfile in $sources
     do (
-        local object="$OBJDIR/$(basename $srcfile).o"
-        if ! $($cmp -std=$std $warn $args -c -o $object $srcfile) 
+        local object="$OBJDIR/objects/$(basename $srcfile).o"
+        if ! $($cmp -std=$std $warn $args -c -o $object $srcfile)
         then
-            printf "${RED}some error happened\n"
+            error "some error happened"
             #TODO parallel variable assignement doesnt work in bash
             compilation_error=1
         fi
     ) & done
     wait
 
-    printf "${GRAY}"
+    #TODO doesnt work with multithreading
     if [ $compilation_error != 0 ]
     then
-        exit 1
+        exit -50
     fi
 }
 
 # (args, sources)
 function compile_c {
-	printf "${CYAN}-------------[compile_c]--------------\n"
-    compile $CMP_C $STD_C "$WARN_C" "$1" "$2"
+	myprint "${CYAN}-------------[compile_c]--------------"
+    compile "$CMP_C" "$STD_C" "$WARN_C" "$1" "$2"
 }
 
 # (args, sources)
 function compile_cpp {
-	printf "${CYAN}------------[compile_cpp]-------------\n"
-    compile $CMP_CPP $STD_CPP "$WARN_CPP" "$1" "$2"
+	myprint "${CYAN}------------[compile_cpp]-------------"
+    compile "$CMP_CPP" "$STD_CPP" "$WARN_CPP" "$1" "$2"
 }
 
 # (args, outfile)
 function link {
-	printf "${CYAN}----------------[link]----------------\n"
-    local args=$1
-    printf "${BLUE}args: ${GRAY}$args\n"
-    local outfile=$OUTDIR/$2
-    printf "${BLUE}outfile: ${GRAY}$outfile\n"
-    local objects="$(find $OBJDIR -name '*.o')
-$(find $OBJDIR -name '*.a')"
-    printf "${BLUE}objects: ${GRAY}$objects\n"
-    local command="$CMP_CPP $args  $(echo $objects | tr '\n' ' ') $LINKER_ARGS -o $outfile"
-    printf "$command\n"
+	myprint "${CYAN}----------------[link]----------------"
+    local args="$1"
+    myprint "${BLUE}args: ${GRAY}$args"
+    local outfile="$2"
+    clean_dir $OBJDIR/out
+    myprint "${BLUE}outfile: ${GRAY}$outfile"
+    local objects="$(find $OBJDIR/objects -name '*.o')
+$(find $OBJDIR/libs -name '*.a')"
+    myprint "${BLUE}objects: ${GRAY}$objects"
+    local command="$CMP_CPP $args  $(echo "$objects" | tr '\n' ' ') -o $OBJDIR/out/$outfile"
+    myprint "$command"
     if $command
-    then 
-        printf "${GREEN}file $CYAN$outfile ${GREEN}created\n${GRAY}"
+    then
+        cp "$OBJDIR/out/$outfile" "$OUTDIR/$outfile"
+        myprint "${GREEN}file $CYAN$outfile ${GREEN}created"
     else
-        printf "${RED}some error happened\n${GRAY}"
-        exit 1
+        error "some error happened"
     fi
 }
 
 # (outfile)
 function pack_static_lib {
-	printf "${CYAN}----------[pack_static_lib]-----------\n"
-    local outfile=$OUTDIR/$1
-    printf "${BLUE}outfile: ${GRAY}$outfile\n"
-    local objects="$(find $OBJDIR -name *.o)"
-    printf "${BLUE}objects: ${GRAY}$objects\n"
-    if ar rcs $outfile $(echo $objects | tr '\n' ' ')
-    then 
-        printf "${GREEN}file $CYAN$outfile ${GREEN}created\n${GRAY}"
+	myprint "${CYAN}----------[pack_static_lib]-----------"
+    local outfile="$OUTDIR/$1"
+    myprint "${BLUE}outfile: ${GRAY}$outfile"
+    local objects="$(find $OBJDIR/objects -name *.o)
+$(find $OBJDIR/libs -name '*.a')"
+    myprint "${BLUE}objects: ${GRAY}$objects"
+    if gcc-ar rcs -o "$OBJDIR/out/$outfile" $(echo "$objects" | tr '\n' ' ')
+    then
+        cp "$OBJDIR/out/$outfile" "$OUTDIR/$outfile"
+        myprint "${GREEN}file $CYAN$outfile ${GREEN}created"
     else
-        printf "${RED}some error happened\n${GRAY}"
-        exit 1
+        error "some error happened"
     fi
 }

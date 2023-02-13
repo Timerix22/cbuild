@@ -1,24 +1,23 @@
 #!/bin/bash
 
-function call_task {
-    TASK=$1
-    printf "${CYAN}===========[$TASK]===========\n"
-    source cbuild/init.sh
+function exec_script {
+    myprint "${BLUE}executing $1"
+    source "$1"
+}
 
-    clear_dir $OBJDIR
-
-    if [ -f "$PRE_TASK_SCRIPT" ]; then
-        printf "${BLUE}executing $PRE_TASK_SCRIPT\n"
-        source "$PRE_TASK_SCRIPT"
-    fi
-
-    source $TASK_SCRIPT
-    printf "${GRAY}"
-
-    if [ -f "$POST_TASK_SCRIPT" ]; then
-        printf "${BLUE}executing $POST_TASK_SCRIPT\n"
-        source "$POST_TASK_SCRIPT"
+function try_exec_script {
+    if [ -f "$1" ]; then
+        exec_script "$1"
     fi
 }
 
-time call_task $1
+function call_task {
+    TASK="$1"
+    source cbuild/init.sh
+    myprint "${CYAN}===========[$TASK]==========="
+    try_exec_script "$PRE_TASK_SCRIPT"
+    exec_script "$TASK_SCRIPT"
+    try_exec_script "$POST_TASK_SCRIPT"
+}
+
+time call_task "$1"

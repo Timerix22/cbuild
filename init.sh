@@ -1,24 +1,39 @@
 #!/bin/bash
+
+# exit on errors
+set -eo pipefail
+
 tabs 4
 
 source cbuild/colors.sh
 source cbuild/functions.sh
 source cbuild/detect_os.sh
 
-# exit on errors
-set -eo pipefail
 
 # copying default config from cbuild if it not exists
 if [ ! -f default.config ]; then
     cp cbuild/default.config default.config
-    printf "${YELLOW}Default config didn't exist, copied from cbuild.\n"
+    myprint "${YELLOW}Default config didn't exist, copied from cbuild."
 fi
 
-source ./default.config
-# getting some values from default config
-DEFAULT_CONFIG_VERSION=$CONFIG_VERSION
-source cbuild/default.config
-DEFAULT_CBUILD_VERSION=$CBUILD_VERSION
+function exec_script_line {
+    local script="$1"
+    local line_num="$2"
+    myprint "${BLUE}reading line $line_num from $script"
+    local line_str="$(sed $line_num'!d' $script)"
+    myprint "$line_str"
+    eval "$line_str"
+}
+
+# getting version of cbuild installation
+exec_script_line cbuild/default.config 2
+INSTALLED_CBUILD_VERSION="$CBUILD_VERSION"
+unset CBUILD_VERSION
+
+# getting version of default config
+exec_script_line default.config 3
+DEFAULT_CONFIG_VERSION="$CONFIG_VERSION"
+unset CONFIG_VERSION
 
 
 # error on undefined
@@ -26,26 +41,34 @@ set -u
 
 # reading current config or creating default
 if [ ! -f current.config ]; then
-    printf "${YELLOW}./current.config doesn't exist\n"
+    myprint "${YELLOW}./current.config doesn't exist"
     cp default.config current.config
-    printf "${YELLOW}New config created from the default.\nEdit it.\n${GRAY}"
+    myprint "${YELLOW}New config created from the default.\nEdit it."
     exit
 fi
-printf "Reading ./current.config\n"
+myprint "${BLUE}reading ./current.config"
 source current.config
 
+myprint "${WHITE}current.config cbuild version: ${CYAN}$CBUILD_VERSION"
+myprint "${WHITE}installed cbuild version: ${CYAN}$INSTALLED_CBUILD_VERSION"
+myprint "${WHITE}current.config version: ${CYAN}$CONFIG_VERSION"
+myprint "${WHITE}default.config version: ${CYAN}$DEFAULT_CONFIG_VERSION"
+
 # checking versions
-if [ ! $CBUILD_VERSION -eq $DEFAULT_CBUILD_VERSION ]; then
-    printf "${RED}config was created for outdated cbuild version\n${GRAY}"
-    exit 1
+if [ ! "$CBUILD_VERSION" -eq "$INSTALLED_CBUILD_VERSION" ]; then
+    error "config was created for outdated cbuild version"
 fi
-if [ ! $CONFIG_VERSION -eq $DEFAULT_CONFIG_VERSION ]; then
-    printf "${RED}config version isn't correct\n${GRAY}"
-    exit 1
+if [ ! "$CONFIG_VERSION" -eq "$DEFAULT_CONFIG_VERSION" ]; then
+    error "config version isn't correct"
 fi
 
 mkdir -p "$OUTDIR"
-mkdir -p "$OBJDIR"
+mkdir -p "$OBJDIR/libs"
+mkdir -p "$OBJDIR/objects"
+mkdir -p "$OBJDIR/profile"
+mkdir -p "$OBJDIR/out"
 
 # dont thorw error on undefined variable
 set +u
+
+myprint "${GREEN}cbuild initialized!"

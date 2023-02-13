@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd $OUTDIR
+cd "$OUTDIR"
 ./$EXEC_FILE
 cd ..
