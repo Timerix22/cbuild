@@ -46,8 +46,11 @@ if [ ! -f current.config ]; then
     myprint "${YELLOW}New config created from the default.\nEdit it."
     exit
 fi
+
 myprint "${BLUE}reading ./current.config"
 source current.config
+
+myprint "${WHITE}project: ${CYAN}$PROJECT"
 
 myprint "${WHITE}current.config cbuild version: ${CYAN}$CBUILD_VERSION"
 myprint "${WHITE}installed cbuild version: ${CYAN}$INSTALLED_CBUILD_VERSION"
