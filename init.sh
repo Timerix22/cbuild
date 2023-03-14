@@ -1,9 +1,9 @@
 #!/bin/bash
 
+tabs 4
+
 # exit on errors
 set -eo pipefail
-
-tabs 4
 
 source cbuild/colors.sh
 source cbuild/functions.sh

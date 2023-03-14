@@ -12,6 +12,9 @@ case "$uname_rezult" in
     GNU/Linux)
         OS=LINUX
         ;;
+    Linux)
+        OS=LINUX
+        ;;
     FreeBSD)
         OS=FREEBSD
         ;;
