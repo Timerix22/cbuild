@@ -8,6 +8,7 @@ prof_files=$(find "$OBJDIR/profile/" -name '*.gcda')
 if [ -z "$prof_files" ]; then
     myprint "${YELLOW}no profiling info found"
 else
+    myprint "${GREEN}profiling info found"
     for prof_file in $prof_files; do
         myprint "${GRAY}$(basename $prof_file)"
         cp $prof_file "$OBJDIR/objects/"
