@@ -1,6 +1,7 @@
 # v6
 + `build_profile` task was split to `profile` and `gprof`
 + added task `sanitize`
++ default C++ standard set to `c++11`
 
 # v5
 + added task `clean`
