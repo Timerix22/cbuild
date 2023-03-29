@@ -32,14 +32,16 @@ function compile {
     myprint "${BLUE}warnings: ${GRAY}$warn"
     local args="$4"
     myprint "${BLUE}args: ${GRAY}$args"
-    local sources="$5"
+    local include="$5"
+    myprint "${BLUE}include dirs: ${GRAY}$include"
+    local sources="$6"
     myprint "${BLUE}sources: ${GRAY}$sources"
     local compilation_error=0
 
 	for srcfile in $sources
     do (
         local object="$OBJDIR/objects/$(basename $srcfile).o"
-        if ! $($cmp -std=$std $warn $args -c -o $object $srcfile)
+        if ! $($cmp -std=$std $warn $args $include -c -o $object $srcfile)
         then
             error "some error happened"
             #TODO parallel variable assignement doesnt work in bash
@@ -58,13 +60,13 @@ function compile {
 # (args, sources)
 function compile_c {
 	myprint "${CYAN}-------------[compile_c]--------------"
-    compile "$CMP_C" "$STD_C" "$WARN_C" "$1" "$2"
+    compile "$CMP_C" "$STD_C" "$WARN_C" "$1" "$INCLUDE" "$2"
 }
 
 # (args, sources)
 function compile_cpp {
 	myprint "${CYAN}------------[compile_cpp]-------------"
-    compile "$CMP_CPP" "$STD_CPP" "$WARN_CPP" "$1" "$2"
+    compile "$CMP_CPP" "$STD_CPP" "$WARN_CPP" "$1" "$INCLUDE" "$2"
 }
 
 # (args, outfile)
