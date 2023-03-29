@@ -13,7 +13,7 @@ fi
 case "$1" in
     submodule)
         echo "mode - $1"
-        git submodule add cbuild
+        git submodule add ./cbuild
     ;;
     standalone)
         echo "mode - $1"
