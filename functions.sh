@@ -80,7 +80,7 @@ function link {
     local objects="$(find $OBJDIR/objects -name '*.o')
 $(find $OBJDIR/libs -name '*.a')"
     myprint "${BLUE}objects: ${GRAY}$objects"
-    local command="$CMP_CPP $args  $(echo "$objects" | tr '\n' ' ') -o $OBJDIR/out/$outfile"
+    local command="$CMP_CPP  $(echo "$objects" | tr '\n' ' ') $args -o $OBJDIR/out/$outfile"
     myprint "$command"
     if $command
     then

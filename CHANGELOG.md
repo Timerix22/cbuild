@@ -3,6 +3,7 @@
 + added task `sanitize`
 + default C++ standard set to `c++11`
 + added `INCLUDE` to `default.config`
++ moved `LINKER_ARGS` to the end of linkage command in `functions.sh` to properly link static libs
 
 # v5
 + added task `clean`
