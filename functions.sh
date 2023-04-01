@@ -22,6 +22,14 @@ function delete_dir {
     rm -rf "$dir"
 }
 
+function try_delete_dir_or_file {
+    local path="$1"
+    if [ -f "$path" ] || [ -d "$path" ]; then
+        rm -rf "$path"
+        myprint "${WHITE}deleting $path"
+    fi
+}
+
 
 function compile {
     local cmp="$1"

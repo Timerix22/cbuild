@@ -4,6 +4,7 @@
 + default C++ standard set to `c++11`
 + added `INCLUDE` to `default.config`
 + moved `LINKER_ARGS` to the end of linkage command in `functions.sh` to properly link static libs
++ added function `try_delete_dir_or_file` for `clean` task
 
 # v5
 + added task `clean`
