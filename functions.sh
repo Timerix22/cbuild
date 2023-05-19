@@ -83,16 +83,14 @@ function link {
     local args="$1"
     myprint "${BLUE}args: ${GRAY}$args"
     local outfile="$2"
-    clean_dir $OBJDIR/out
     myprint "${BLUE}outfile: ${GRAY}$outfile"
     local objects="$(find $OBJDIR/objects -name '*.o')
 $(find $OBJDIR/libs -name '*.a')"
     myprint "${BLUE}objects: ${GRAY}$objects"
-    local command="$CMP_CPP  $(echo "$objects" | tr '\n' ' ') $args -o $OBJDIR/out/$outfile"
+    local command="$CMP_CPP  $(echo "$objects" | tr '\n' ' ') $args -o $OUTDIR/$outfile"
     myprint "$command"
     if $command
     then
-        cp "$OBJDIR/out/$outfile" "$OUTDIR/$outfile"
         myprint "${GREEN}file $CYAN$outfile ${GREEN}created"
     else
         error "some error happened"
@@ -107,9 +105,8 @@ function pack_static_lib {
     local objects="$(find $OBJDIR/objects -name *.o)
 $(find $OBJDIR/libs -name '*.a')"
     myprint "${BLUE}objects: ${GRAY}$objects"
-    if gcc-ar rcs -o "$OBJDIR/out/$outfile" $(echo "$objects" | tr '\n' ' ')
+    if ar rcs "$OUTDIR/$outfile" $(echo "$objects" | tr '\n' ' ')
     then
-        cp "$OBJDIR/out/$outfile" "$OUTDIR/$outfile"
         myprint "${GREEN}file $CYAN$outfile ${GREEN}created"
     else
         error "some error happened"

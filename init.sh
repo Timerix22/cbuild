@@ -69,7 +69,6 @@ mkdir -p "$OUTDIR"
 mkdir -p "$OBJDIR/libs"
 mkdir -p "$OBJDIR/objects"
 mkdir -p "$OBJDIR/profile"
-mkdir -p "$OBJDIR/out"
 
 # dont thorw error on undefined variable
 set +u
