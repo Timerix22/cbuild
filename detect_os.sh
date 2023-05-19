@@ -9,10 +9,7 @@ case "$uname_rezult" in
     Msys | Cygwin | "MS/Windows")
         OS=WINDOWS
         ;;
-    GNU/Linux)
-        OS=LINUX
-        ;;
-    Linux)
+    Linux | GNU/Linux | Android)
         OS=LINUX
         ;;
     FreeBSD)
