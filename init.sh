@@ -35,6 +35,8 @@ exec_script_line default.config 3
 DEFAULT_CONFIG_VERSION="$CONFIG_VERSION"
 unset CONFIG_VERSION
 
+# undefined task
+[ -z "$TASK" ] && TASK="no_task"
 
 # error on undefined
 set -u

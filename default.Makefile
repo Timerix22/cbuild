@@ -28,6 +28,12 @@ build_static_lib:
 build_static_lib_dbg:
 	@cbuild/call_task.sh build_static_lib_dbg 2>&1 | tee make_raw.log
 
+# recompile libsome_dep.a in the next build task
+#rebuild_some_dep:
+#	@cbuild/rebuild_dep.sh libsome_dep.a 2>&1 | tee make_raw.log
+
+#rebuild_all: rebuild_some_dep
+
 ######################################
 ######       Launch tasks      #######
 ######################################
@@ -49,10 +55,18 @@ profile:
 	@cbuild/call_task.sh profile 2>&1 | tee make_raw.log
 
 # compiles program with -pg and runs it with gprof
-# uses gprof2dot python script to generate function call tree  
+# uses gprof2dot python script to generate function call tree (pip install gprof2dot)
+# requires graphviz (https://www.graphviz.org/download/source/)
 gprof:
 	@cbuild/call_task.sh gprof 2>&1 | tee make_raw.log
-	
+
+# compiles program and runs it with callgrind (part of valgrind)
+# uses gprof2dot python script to generate function call tree (pip install gprof2dot)
+# requires graphviz (https://www.graphviz.org/download/source/)
+# P.S. detailed rezults can be viewed in KCacheGrind
+callgrind:
+	@cbuild/call_task.sh callgrind 2>&1 | tee make_raw.log
+
 # compiles executable with sanitizers and executes it to find errors and warnings
 sanitize:
 	@cbuild/call_task.sh sanitize 2>&1 | tee make_raw.log

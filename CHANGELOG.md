@@ -1,3 +1,12 @@
+# v7
++ added function `resolve_dependencies` to `link`
++ added variables `DEPS_BASEDIR` and `DEPS` to config
++ added script `rebuild_dep.sh` which can be called through `Makefile`
++ added dependency cleaning in `default_tasks/clean.sh`
++ added task `callgrind`
++ added task `no_task` which is been set in `init.sh` when `TASK` is empty
++ now `STATIC_LIB_FILE` starts with "lib"
+
 # v6
 + `build_profile` task was split to `profile` and `gprof`
 + added task `sanitize`
