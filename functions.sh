@@ -88,7 +88,7 @@ $(find $OBJDIR/libs -name '*.a')"
 
 # if $lib_file doesn't exist or rebuild_* task was executed, builds static lib
 function handle_static_dependency {
-    local deps_basedir="$1"
+    local deps_basedir="${1%/}"
     local lib_project_dir="$2"
     local lib_build_task="$3"
     local lib_build_dir="$4"
