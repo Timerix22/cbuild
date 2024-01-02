@@ -2,10 +2,10 @@
 
 source cbuild/colors.sh
 
-uname_rezult="$(uname -o)"
-myprint "${GRAY}uname rezult: '$uname_rezult'"
+uname_result="$(uname -o)"
+myprint "${GRAY}uname result: '$uname_result'"
 
-case "$uname_rezult" in
+case "$uname_result" in
     Msys | Cygwin | "MS/Windows")
         OS=WINDOWS
         ;;
@@ -19,7 +19,7 @@ case "$uname_rezult" in
         OS=MACOS
         ;;
     *)
-        error "unknown operating system: $uname_rezult"
+        error "unknown operating system: $uname_result"
         ;;
 esac
 
