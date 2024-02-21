@@ -28,9 +28,13 @@ build_static_lib:
 build_static_lib_dbg:
 	@cbuild/call_task.sh build_static_lib_dbg 2>&1 | tee make_raw.log
 
-# recompile libsome_dep.a in the next build task
+######################################
+######   Rebuild dependencies  #######
+######################################
+
+# recompile libsome.a in the next build task
 #rebuild_some_dep:
-#	@cbuild/rebuild_dep.sh libsome_dep.a 2>&1 | tee make_raw.log
+#	@cbuild/rebuild_dep.sh libsome.a 2>&1 | tee make_raw.log
 
 #rebuild_all: rebuild_some_dep
 

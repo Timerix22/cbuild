@@ -97,11 +97,12 @@ function handle_static_dependency {
         [[ -z "$lib_build_task" ]] && error "lib_build_task is empty" 
         myprint "${BLUE}making $lib_file by task $lib_build_task"
 
+        local proj_root_dir="$(pwd)"
         cd "$deps_basedir/$lib_project_dir"
         if ! make "$lib_build_task"; then
             exit 1
         fi
-        cd ..
+        cd "$proj_root_dir"
 
         cp "$deps_basedir/$lib_project_dir/$lib_build_dir/$lib_file" "$OBJDIR/libs/"
         myprint "${GREEN}copied ${CYAN}$lib_file to $OBJDIR/libs/"
@@ -112,7 +113,7 @@ function handle_static_dependency {
 function resolve_dependencies {
     deps_basedir=$1
     deps=$2
-    [[ -z "$deps_basedir" ]] && deps_basedir=.
+    [[ -z "$deps_basedir" ]] && deps_basedir="."
     OLDIFS="$IFS"
     IFS=$'\n'
     # Evalueting dependency expressions.

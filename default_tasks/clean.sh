@@ -12,12 +12,14 @@ done
 set +e
 OLDIFS="$IFS"
 IFS=$'\n'
+cd "$DEPS_BASEDIR"
 for dep in $DEPS; do
     dep_dir=$(echo ${dep/=*/} | tr -d '[:blank:]')
     myprint "${CYAN}--------------[$dep_dir]--------------"
-    cd "$DEPS_BASEDIR/$dep_dir"
+    cd "$dep_dir"
     make clean
     cd ..
 done
 IFS="$OLDIFS"
+cd ..
 set -e
